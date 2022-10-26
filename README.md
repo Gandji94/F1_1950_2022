@@ -28,5 +28,6 @@ Since the data set for pole positions was not fully completed (data was missing)
 
 Around 2010 we can notice a vast points increase. This is due to the new points-awarding system that was introduced in 2010.
 
+Regarding the 2022 data, the season is still in progress (3 more races to go (current date 27.10.2022)), therefore the 2022 season is not complete yet. The latest eentry in the data set for the 2022 season was the race in Hungary.
 **
 
