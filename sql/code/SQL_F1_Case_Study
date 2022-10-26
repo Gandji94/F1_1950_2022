@@ -1,0 +1,174 @@
+*Which GP took place the most*
+
+select
+	circuits.name,
+	circuits.country,
+	circuits.location as city,
+	min(races.year) as premiere,
+	count(races.raceId) as number_of_times
+from circuits
+	inner join races
+		on circuits.circuitId=races.circuitId
+group by 1
+order by count(races.raceId) desc;
+
+
+*F1 drivers GP starts and victories*
+
+Select
+	drivers.forename||' '||drivers.surname as driver,
+	races.year as Season,
+	drivers.nationality as nationality,
+	count(results.driverId) as numbers_of_races_started,
+	count(case when results.position=1 then 1 else null end) as race_wins
+from drivers
+	inner join results
+		on drivers.driverId=results.driverId
+	inner join races
+		on results.raceId=races.raceId
+group by 1,2
+order by drivers.forename||' '||drivers.surname ASC;
+
+
+*Youngest and oldest F1 driver with a win*
+Select
+	drivers.forename||' '||drivers.surname as driver,
+	drivers.nationality,
+	min(races.date) as year_of_first_victory,
+	min(races.date) - drivers.dob as Age_of_first_victory,
+	max(races.date) as year_of_latest_victory,
+	max(races.date) - drivers.dob as Age_of_latest_victory
+from drivers
+	inner join results
+		on drivers.driverId=results.driverId
+	inner join races
+		on results.raceId=races.raceId
+where results.position=1
+group by 1,2
+order by min(races.date) - drivers.dob;
+
+
+*Youngets and oldest race starter*
+Select
+	drivers.forename||' '||drivers.surname as driver,
+	drivers.nationality,
+	min(races.date) as year_of_first_race_start,
+	min(races.date) - drivers.dob as Age_of_first_race_start,
+	max(races.date) as year_of_latest_race_start,
+	max(races.date) - drivers.dob as Age_of_latest_race_start
+from drivers
+	inner join results
+		on drivers.driverId=results.driverId
+	inner join races
+		on results.raceId=races.raceId
+group by 1,2
+order by min(races.date) - drivers.dob;
+
+
+* 1950-2022 World Championship Points development*
+select
+	drivers.forename||' '||drivers.surname as driver,
+	races.year as year,
+	sum(results.points) as world_championship_points
+from drivers
+	inner join results
+		on drivers.driverId=results.driverId
+	inner join races
+		on results.raceId=races.raceId
+	inner join circuits
+		on races.circuitId=circuits.circuitId
+group by 1,2
+order by races.year desc;
+
+
+*List of World Champions form 1950-2022*
+select
+	driver,
+	year,
+	max(world_championship_points) as World_Champion
+from(
+select
+	drivers.forename||' '||drivers.surname as driver,
+	races.year as year,
+	sum(results.points) as world_championship_points
+from drivers
+	inner join results
+		on drivers.driverId=results.driverId
+	inner join races
+		on results.raceId=races.raceId
+	inner join circuits
+		on races.circuitId=circuits.circuitId
+group by 1,2
+order by races.year desc
+) as wcl
+group by 2
+order by year desc;
+
+*Constructors with the most GP victories*
+select
+	constructors.name,
+	count(case when results.position=1 then 1 else null end) as race_wins
+from constructors
+	inner join results
+		on constructors.constructorId=results.constructorId
+group by 1
+order by count(case when results.position=1 then 1 else null end) desc;
+
+
+*1950-2022 Constructor Champions*
+select
+	constructor,
+	Season,
+	race_wins,
+	max(world_championship_points) as Constructor_Champion
+from(
+select
+	constructors.name as constructor,
+	races.year as Season,
+	sum(results.points) as world_championship_points,
+	count(case when results.position=1 then 1 else null end) as race_wins
+from constructors
+	inner join results
+		on constructors.constructorId=results.constructorId
+	inner join races
+		on races.raceId=results.raceId
+group by 1,2
+) as cc
+group by 2
+order by Season desc;
+
+
+*Drivers and their victories*
+Select
+	drivers.forename||' '||drivers.surname as driver,
+	constructors.name as constructor,
+	circuits.name as track,
+	circuits.country,
+	circuits.location as city,
+	races.year
+from drivers
+	inner join results
+		on drivers.driverId=results.driverId
+	inner join constructors
+		on results.constructorId=constructors.constructorId
+	inner join races
+		on results.raceId=races.raceId
+	inner join circuits
+		on races.circuitId=circuits.circuitId
+where results.positionOrder=1
+order by year asc;
+
+
+
+*Drivers & Nations (how many Seasons each driver had)*
+select
+	races.year as Season,
+	drivers.forename||' '||drivers.surname as Name,
+	drivers.nationality,
+	count (distinct drivers.driverId) as number_of_driver
+FROM drivers
+	inner join results
+		on drivers.driverId=results.driverId
+	inner join races
+		on results.raceId=races.raceId
+group by 1,2;
