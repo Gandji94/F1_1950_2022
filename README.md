@@ -8,8 +8,8 @@ These dashboards will contain information about:
 - Where are the Grand Prix tracks, and how many times did a Grand Prix take place?
 - Overview of which Grand Prix are one by a driver and how many times
 - The youngest and oldest
--- Race starter
--- Race winner
+  - Race starter
+  - Race winner
 - Number of seasons in the F1 by driver
 - Win ratio of the F1 driver
 - Number of drivers by nation
