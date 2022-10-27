@@ -10,7 +10,7 @@ These dashboards will contain information about:
 - The youngest and oldest
 - Race starter
 - Race winner
-- Number of seasons in the F1
+- Number of seasons in the F1 by driver
 - Win ratio of the F1 driver
 - Number of drivers by nation
 - World Championship points development
