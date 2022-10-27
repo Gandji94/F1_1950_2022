@@ -13,7 +13,7 @@ These dashboards will contain information about:
 - Number of seasons in the F1 by driver
 - Win ratio of the F1 driver
 - Number of drivers by nation
-- World Championship points development for each driver
+- World Championship points development of each driver
 
 The data set for the report was provided by the Kaggle
 https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2020?select=driver_standings.csv
